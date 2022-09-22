@@ -8,13 +8,11 @@ def find_latest(root_path):
     day_path = join(month_path, listdir(month_path)[-1])
     time_path = join(day_path, listdir(day_path)[-1])
     latest_path = "/".join(time_path.split("/")[-5:])
-    print(latest_path)
     return latest_path
 
 
 def get_all_images(area):
     image_urls = []
-    table = {"Woodlands Causeway": "4.png", "Tuas Second Link": "10.png"}
     for root, dirs, files in walk(getcwd()):
         root = "/" + "/".join(root.split("/")[-5:])
         for f in files:
