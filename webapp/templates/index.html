@@ -1,14 +1,17 @@
-<ul>
-  <li>
-    <a href="{{ '/' + latest }}">
-      Latest
-    </a>
-  </li>
-  {% for file in files[::-1] %}
-    <li>
-      <a href="{{ (request.path + '/' if request.path != '/' else '') + file }}">
-        {{ (request.path + '/' if request.path != '/' else '') + file }}
+{% extends "components/base.html" %}
+{% block content %}
+  <ul class="list-group">
+    <li class="list-group-item">
+      <a href="{{ '/' + latest }}">
+        Latest
       </a>
     </li>
-  {% endfor %}
-</ul>
+    {% for file in files %}
+      <li class="list-group-item">
+        <a href="{{ (request.path + '/' if request.path != '/' else '') + file }}">
+          {{ (request.path + '/' if request.path != '/' else '') + file }}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock content %}

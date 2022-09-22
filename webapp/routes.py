@@ -1,16 +1,17 @@
-from flask import abort, send_file, render_template
+from flask import abort, send_file, render_template, redirect, url_for
 import os
 
 from webapp import app
-from webapp.utils import find_latest
+from webapp.utils import find_latest, get_all_images
+
+
+BASE_DIR = os.getcwd()
 
 
 @app.route("/", defaults={"req_path": ""})
 @app.route("/<path:req_path>")
 @app.route("/collections/<path:req_path>")
-def dir_listing(req_path):
-    BASE_DIR = os.getcwd()
-
+def collections(req_path):
     # Joining the base and the requested path
     root_path = os.path.join(BASE_DIR, "collections")
     latest = find_latest(root_path)
@@ -25,6 +26,19 @@ def dir_listing(req_path):
         return send_file(abs_path)
 
     # Show directory contents
-    files = os.listdir(abs_path)
+    files = sorted(
+        os.listdir(abs_path),
+        key=lambda _: int(_.split("/")[-1].replace(".png", "")),
+        reverse=True,
+    )
 
     return render_template("index.html", latest=latest, files=files)
+
+
+@app.route("/analyze/<string:area>")
+def analyze(area):
+    if not area:
+        return redirect(url_for("collections"))
+    root_path = os.path.join(BASE_DIR, "collections")
+    images = sorted(get_all_images(area), reverse=True)
+    return render_template("analyze.html", images=images)

@@ -6,6 +6,7 @@ from os import getenv
 # Local Imports
 from logger import logging
 from webapp import flask_run
+
 from automation import driver
 from automation.download import download_images
 

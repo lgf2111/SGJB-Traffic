@@ -1,4 +1,4 @@
-from os import listdir
+from os import listdir, walk, getcwd
 from os.path import join
 
 
@@ -7,5 +7,19 @@ def find_latest(root_path):
     month_path = join(year_path, listdir(year_path)[-1])
     day_path = join(month_path, listdir(month_path)[-1])
     time_path = join(day_path, listdir(day_path)[-1])
-    latest_path = time_path[time_path.find("collections") :]
+    latest_path = "/".join(time_path.split("/")[-5:])
+    print(latest_path)
     return latest_path
+
+
+def get_all_images(area):
+    image_urls = []
+    table = {"Woodlands Causeway": "4.png", "Tuas Second Link": "10.png"}
+    for root, dirs, files in walk(getcwd()):
+        root = "/" + "/".join(root.split("/")[-5:])
+        for f in files:
+            if area == "Woodlands Causeway" and f == "4.png":
+                image_urls.append("/".join([root, f]))
+            elif area == "Tuas Second Link" and f == "10.png":
+                image_urls.append("/".join([root, f]))
+    return image_urls
