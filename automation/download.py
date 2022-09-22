@@ -1,6 +1,7 @@
 import os
 from datetime import datetime
 import urllib.request as request
+from threading import Thread
 
 from logger import logging
 from automation import driver, By
@@ -32,3 +33,8 @@ def download_images(url, tz):
         ]
         request.install_opener(opener)
         request.urlretrieve(src, os.path.join(folder, f"{i}.png"))
+
+
+def download_images_thread(url, tz):
+    t = Thread(target=download_images, args=(url, tz))
+    t.start()

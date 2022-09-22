@@ -8,7 +8,7 @@ from logger import logging
 from webapp import flask_run
 
 from automation import driver
-from automation.download import download_images
+from automation.download import download_images_thread
 
 
 TZ = timezone(getenv("TZ"))
@@ -23,7 +23,7 @@ if __name__ == "__main__":
                 now = datetime.now(tz=TZ)
                 print(f"\r{now}", end="", flush=True)
                 if now.minute in [0, 30]:
-                    download_images(URL, TZ)
+                    download_images_thread(URL, TZ)
                 sleep(1)
         except KeyboardInterrupt:
             driver.close()
