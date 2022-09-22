@@ -23,6 +23,17 @@
           </ul>
         </li>
       </ul>
+      {% if area %}
+        <form class="d-flex" action="{{url_for('analyze', area=area)}}" role="date">
+          <input class="form-control me-2" name="date" type="date" aria-label="Date">
+          <button class="btn btn-outline-secondary" type="submit">Search</button>
+        </form>
+      {% else %}
+        <form class="d-flex" role="date">
+          <input class="form-control me-2" name="date" type="date" aria-label="Date" disabled="disabled">
+          <button class="btn btn-outline-secondary disabled" type="submit">Search</button>
+        </form>
+      {% endif %}
     </div>
   </div>
 </nav>

@@ -1,5 +1,6 @@
-from flask import abort, send_file, render_template, redirect, url_for
+from flask import abort, send_file, render_template, redirect, url_for, request
 import os
+from datetime import datetime
 
 from webapp import app
 from webapp.utils import find_latest, get_all_images
@@ -39,6 +40,9 @@ def collections(req_path):
 def analyze(area):
     if not area:
         return redirect(url_for("collections"))
-    root_path = os.path.join(BASE_DIR, "collections")
-    images = sorted(get_all_images(area), reverse=True)
-    return render_template("analyze.html", images=images)
+    date = request.args.get("date", datetime.now().strftime(r"%Y-%m-%d")).replace(
+        "-", "/"
+    )
+    print(date)
+    images = sorted(filter(lambda x: date in x, get_all_images(area)), reverse=True)
+    return render_template("analyze.html", images=images, area=area)
